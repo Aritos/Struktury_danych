@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Implementacja Listy.
-#TODO: sort,insert,index,extend,count,copy
+#TODO: sort, copy
 
 class Lista_elem():
 	def __init__(self,elem,next=None):
@@ -11,7 +11,6 @@ class Lista_elem():
 class Lista():
 	def __init__(self):
 		self.first = None
-		self.ostatni = None
 
 	def __repr__(self):
 		if self.first == None:
@@ -20,6 +19,19 @@ class Lista():
 
 	def __len__(self):
 		return self.rek_len(self.first)
+
+	def __iter__(self): 
+		self.it = self.first
+		return self
+
+	def __next__(self):
+		it = self.it
+
+		if it == None: 
+			raise StopIteration 
+
+		self.it = it.next; 
+		return it.elem
 
 	def ost(self,ostat):
 		if ostat == None:
@@ -34,14 +46,14 @@ class Lista():
 			return 1 + self.rek_len(ostat.next)
 
 	def append(self,elem):
+		d = Lista_elem(elem)
 		if self.first == None:
-			d = Lista_elem(elem,self.ostatni)
 			self.first = d
-			self.ostatni = d
 		else:
-			d = Lista_elem(elem,None)
-			self.ostatni.next = d
-			self.ostatni = d
+			p = self.first
+			while p.next != None:
+				p = p.next
+			p.next = d
 
 	def clear(self):
 		self.first = None
@@ -71,18 +83,45 @@ class Lista():
 			self.reverse(d,d.next)
 			d.next = e
 
+	def insert(self,poz,elem):
+		new = Lista_elem(elem)
+		if poz == 0:
+			new.next = self.first
+			self.first = new
+		else:
+			d = self.first
+			for i in range(poz):
+				poprzedni = d
+				if poprzedni.next == None:
+					poprzedni.next = new
+					break
+				d = d.next
+			if poprzedni.next != new:
+				poprzedni.next = new
+				new.next = d
+
+	def index(self,elem):
+		d = self.first
+		i = 0
+		while d.elem != elem:
+			poprzedni = d
+			d = d.next
+			i += 1
+		return i
+
+	def extend(self,ite):
+		for i in ite:
+			self.append(i)
+
+	def count(self,elem):
+		d = self.first
+		i = 0
+		while d != None:
+			if d.elem == elem:
+				i += 1
+			d = d.next
+		return i
 
 
+#L = Lista()
 
-
-'''
-L = Lista()
-L.append(1)
-L.append(2)
-L.append(3)
-L.append(4)
-L.append(5)
-print(L)
-L.reverse()
-print(L)
-'''
