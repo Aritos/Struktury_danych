@@ -15,7 +15,7 @@ class Lista():
 	def __repr__(self):
 		if self.first == None:
 			return '[]'
-		return '[' + str(self.first.elem) + str(self.ost(self.first.next))
+		return '[' + str(self.first.elem) + str(self.last(self.first.next))
 
 	def __len__(self):
 		return self.rek_len(self.first)
@@ -33,11 +33,11 @@ class Lista():
 		self.it = it.next; 
 		return it.elem
 
-	def ost(self,ostat):
+	def last(self,ostat):
 		if ostat == None:
 			return ']'
 		else:
-			return ', ' + str(ostat.elem) + str(self.ost(ostat.next))
+			return ', ' + str(ostat.elem) + str(self.last(ostat.next))
 
 	def rek_len(self,ostat):
 		if ostat == None:
